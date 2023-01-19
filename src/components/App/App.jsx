@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
-// import './App.scss';
+import ContactForm from '../ContactForm';
+import ContactList from '../ContactList';
+import Filter from '../Filter';
+import style from '../App/App.module.css';
 
 class App extends Component {
-  // state = {
-  //   contacts: [],
-  //   name: ''
-// }
   state = {
     contacts: [
       {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
@@ -14,68 +13,64 @@ class App extends Component {
       {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
       {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
     ],
-    filter: '',
-    name: '',
-    number: ''
+    filter: ''
+}
+  
+formSubmitHandler = ({name, number}) => {
+  const normalizeName = name.toLowerCase();
+  const checkname = this.state.contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizeName),
+  );
+  if (checkname.length !== 0) {
+  alert(`${name} is already in contacts`);
+  } else { 
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+    this.setState(prevState => ({
+      contacts: [newContact, ...prevState.contacts],
+    }));
   }
+}
 
+  // Rosi Simphson is already in contacts.
 
-  nameInputId = nanoid();
-
-  handleChange = e => {
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
+  deleteContact = nameId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== nameId),
+    }));
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.onSubmit({ ...this.state })
-    this.reset();
+  changeFilter = event => {
+    this.setState(
+      { filter: event.currentTarget.value }
+      );
   };
 
-  reset = () => {
-    this.setState({ contacts: [], name: '' });
+  getVisibleContacts = () => {
+    const { filter, contacts } = this.state;
+    const lowerCaseFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(lowerCaseFilter),
+    );
   };
 
-  // deleteTodo = todoId => {
-  //   this.setState(prevState => ({
-  //     todos: prevState.todos.filter(todo => todo.id !== todoId),
-  //   }));
-  // };
 
   render() {
+  const visibleContacts = this.getVisibleContacts();
 
   return (
-    <>
-      {/* <Phonebook /> */}
-      {/* <Contacts /> */}
-      <h2 className="Title">Phonebook</h2>
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor={this.nameInputId}>
-          <input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            onChange={this.handleChange}
-            id={this.nameInputId}
-          />
-      </label>
-      <button className="Btn" type="button">Add contact</button>
-      </form>
-      
-      <h2>Contacts</h2>
-      <ul>
-        {this.state.contacts.map(({ id, name, number }) => (
-          <li key={id}>
-            <p className="Contact__text">{name}</p>
-            <p className="Contact__tel">{number}</p>
-          </li>
-        ))}
-      </ul>
-
-    </>
+    <div className={style.container}>
+      <h1 className={style.title}>Phonebook</h1>
+      <ContactForm onSubmit={this.formSubmitHandler}/>
+          
+      <h2 className={style.title}>Contacts</h2>
+      <Filter value={this.state.filter} onChange={this.changeFilter} />
+      <ContactList contacts={visibleContacts} onDeleteContact={this.deleteContact}/>
+    </div>
   );
 }
 }

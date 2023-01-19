@@ -1,0 +1,12 @@
+.contactlist {
+    list-style: none;
+}
+
+.contact__text,
+.contact__tel {
+    font-size: 18px;
+}
+
+.contact__btn {
+    display: block;
+}
