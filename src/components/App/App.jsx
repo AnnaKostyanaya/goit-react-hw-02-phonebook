@@ -20,7 +20,7 @@ formSubmitHandler = ({name, number}) => {
   const { contacts } = this.state;
   const normalizeName = name.toLowerCase();
   const checkname = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizeName),
+    contact.name.toLowerCase() === normalizeName
   );
   if (checkname.length !== 0) {
     alert(`${name} is already in contacts`);
