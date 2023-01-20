@@ -1,12 +1,9 @@
 .contactlist {
+    padding: 0;
     list-style: none;
-}
-
-.contact__text,
-.contact__tel {
-    font-size: 18px;
-}
-
-.contact__btn {
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    color: rgb(10, 10, 10);
+    margin-top: 20px;
+    margin-bottom: 0;
 }

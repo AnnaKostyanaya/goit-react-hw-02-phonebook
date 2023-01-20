@@ -1,23 +1,22 @@
 import React from 'react';
-import style from './ContactList';
+import ContactElement from '../ContactElement';
+import style from '../ContactList/ContactList.module.css';
+import PropTypes from 'prop-types';
 
 const ContactList = ({ contacts, onDeleteContact}) => (
-
 <ul className={style.contactlist}>
-{contacts.map(({ id, name, number }) => (
-    <li key={id}>
-        <p className={style.contact__text}>{name}</p>
-        <p className={style.contact__tel}>{number}</p>
-        <button
-            type="button"
-            className={style.contact__btn}
-            onClick={() => onDeleteContact(id)}
-        >
-            Удалить
-        </button>
-    </li>
-))}
+    {contacts.map(contact => (
+        <ContactElement key={contact.id} contact={contact} onDeleteContact={onDeleteContact}/>
+    ))}
 </ul>
 );
 
 export default ContactList;
+
+ContactElement.propTypes = {
+    contacts: PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+    }),
+};

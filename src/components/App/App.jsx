@@ -17,12 +17,13 @@ class App extends Component {
 }
   
 formSubmitHandler = ({name, number}) => {
+  const { contacts } = this.state;
   const normalizeName = name.toLowerCase();
-  const checkname = this.state.contacts.filter(contact =>
+  const checkname = contacts.filter(contact =>
     contact.name.toLowerCase().includes(normalizeName),
   );
   if (checkname.length !== 0) {
-  alert(`${name} is already in contacts`);
+    alert(`${name} is already in contacts`);
   } else { 
     const newContact = {
       id: nanoid(),
@@ -31,11 +32,9 @@ formSubmitHandler = ({name, number}) => {
     };
     this.setState(prevState => ({
       contacts: [newContact, ...prevState.contacts],
-    }));
+  }));
   }
 }
-
-  // Rosi Simphson is already in contacts.
 
   deleteContact = nameId => {
     this.setState(prevState => ({
@@ -64,7 +63,7 @@ formSubmitHandler = ({name, number}) => {
 
   return (
     <div className={style.container}>
-      <h1 className={style.title}>Phonebook</h1>
+      <h1 className={style.main_title}>Phonebook</h1>
       <ContactForm onSubmit={this.formSubmitHandler}/>
           
       <h2 className={style.title}>Contacts</h2>
