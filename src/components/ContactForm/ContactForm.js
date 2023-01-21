@@ -17,7 +17,7 @@ handleChange = event => {
 
 handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    this.props.onSubmit({...this.state});
     this.reset();
 };
 
@@ -26,7 +26,7 @@ reset = () => {
 };
 
 render() {
-
+    const { name, number } = this.state;
 return (
     <form onSubmit={this.handleSubmit}>
         <label className={style.lable} htmlFor={this.nameId}>Name
@@ -38,7 +38,7 @@ return (
                 required
                 onChange={this.handleChange}
                 id={this.nameId}
-                value={this.state.name}
+                value={name}
             />
         </label>
         <label className={style.lable} htmlFor={this.nameId}>Number
@@ -50,7 +50,7 @@ return (
                 required
                 onChange={this.handleChange}
                 id={this.nameId}
-                value={this.state.number}
+                value={number}
             />
         </label>
     <button className={style.btn} type="submit">Add contact</button>
