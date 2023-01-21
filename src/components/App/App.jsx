@@ -17,12 +17,7 @@ class App extends Component {
 }
   
 formSubmitHandler = ({name, number}) => {
-  const { contacts } = this.state;
-  const normalizeName = name.toLowerCase();
-  const checkname = contacts.filter(contact =>
-    contact.name.toLowerCase() === normalizeName
-  );
-  if (checkname.length !== 0) {
+  if (this.checkName(name)) {
     alert(`${name} is already in contacts`);
   } else { 
     const newContact = {
@@ -33,6 +28,19 @@ formSubmitHandler = ({name, number}) => {
     this.setState(prevState => ({
       contacts: [newContact, ...prevState.contacts],
   }));
+  }
+}
+
+checkName = (name) => {
+  const { contacts } = this.state;
+  const normalizeName = name.toLowerCase();
+  const checkname = contacts.filter(contact =>
+    contact.name.toLowerCase() === normalizeName
+  );
+  if (checkname.length !== 0) {
+    return true;
+  } else {
+    return false;
   }
 }
 
@@ -64,7 +72,7 @@ formSubmitHandler = ({name, number}) => {
   return (
     <div className={style.container}>
       <h1 className={style.main_title}>Phonebook</h1>
-      <ContactForm onSubmit={this.formSubmitHandler}/>
+      <ContactForm onSubmit={this.formSubmitHandler} onCheck={this.checkName}/>
           
       <h2 className={style.title}>Contacts</h2>
       <Filter value={this.state.filter} onChange={this.changeFilter} />

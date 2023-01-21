@@ -19,7 +19,7 @@ const ContactElement = ({ onDeleteContact, contact: { id, name, number } }) => (
 export default ContactElement;
 
 ContactElement.propTypes = {
-    contact: PropTypes.exact({
+    contact: PropTypes.arrayOf({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     number: PropTypes.string.isRequired,

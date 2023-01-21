@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import style from '../ContactForm/ContactForm.module.css';
 
@@ -16,19 +17,24 @@ handleChange = event => {
 };
 
 handleSubmit = event => {
+    const checkName = event.currentTarget.name.value;
     event.preventDefault();
     this.props.onSubmit({...this.state});
-    this.reset();
+    this.clearForm(checkName);
 };
 
-reset = () => {
-    this.setState({ name: '', number: '' });
-};
+clearForm = (checkName) => {
+    if (this.props.onCheck(checkName)) {
+        this.setState({ name: '' });
+    } else {
+        this.setState({ name: '', number: '' });
+    }
+}
 
 render() {
     const { name, number } = this.state;
 return (
-    <form onSubmit={this.handleSubmit}>
+    <form onSubmit={this.handleSubmit} >
         <label className={style.lable} htmlFor={this.nameId}>Name
             <input className={style.input}
                 type="text"
@@ -60,3 +66,8 @@ return (
 }
 
 export default ContactForm;
+
+ContactForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    onCheck: PropTypes.func.isRequired,
+};
