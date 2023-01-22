@@ -19,9 +19,11 @@ const ContactElement = ({ onDeleteContact, contact: { id, name, number } }) => (
 export default ContactElement;
 
 ContactElement.propTypes = {
-    contact: PropTypes.arrayOf({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
-    }),
+    onDeleteContact: PropTypes.func.isRequired,
+    contact: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+}).isRequired,
 };
+

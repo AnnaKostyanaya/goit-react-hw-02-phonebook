@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
 import style from '../ContactForm/ContactForm.module.css';
 
 class ContactForm extends Component {
+
+static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    onCheck: PropTypes.func.isRequired,
+};
+
 state = {
     name: '',
     number: ''
 }
-
-nameId = nanoid();
 
 handleChange = event => {
     const {name, value} = event.currentTarget;
@@ -35,7 +38,7 @@ render() {
     const { name, number } = this.state;
 return (
     <form onSubmit={this.handleSubmit} >
-        <label className={style.lable} htmlFor={this.nameId}>Name
+        <label className={style.lable} >Name
             <input className={style.input}
                 type="text"
                 name="name"
@@ -43,11 +46,10 @@ return (
                 title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
                 required
                 onChange={this.handleChange}
-                id={this.nameId}
                 value={name}
             />
         </label>
-        <label className={style.lable} htmlFor={this.nameId}>Number
+        <label className={style.lable} >Number
             <input className={style.input}
                 type="tel"
                 name="number"
@@ -55,7 +57,6 @@ return (
                 title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                 required
                 onChange={this.handleChange}
-                id={this.nameId}
                 value={number}
             />
         </label>
@@ -66,8 +67,3 @@ return (
 }
 
 export default ContactForm;
-
-ContactForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    onCheck: PropTypes.func.isRequired,
-};
